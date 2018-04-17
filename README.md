@@ -6,7 +6,7 @@ Supports URI and query string parameters.
 ## Quick start examples
 
 ```c#
-using Binateq.JsonRestExtensions;
+using Binateq.JsonRestClient;
 
 class Resource
 {
@@ -15,54 +15,58 @@ class Resource
 	public string Name { get; set; }
 }
 
-var baseUri = new Uri("https://api.domain.tld");
 var httpClient = new HttpClient();
+var baseUri = new Uri("https://api.domain.tld");
+var jsonRestClient = new JsonRestClient(httpClient, baseUri);
 
 var resourceId = 100;
 
-var resource1 = await httpClient.GetAsync<Resource>(baseUri, $"v1/resources/{resourceId}");
+var resource1 = await jsonRestClient.GetAsync<Resource>($"v1/resources/{resourceId}");
 
-var resources2 = await httpClient.GetAsync<Resource[]>(baseUri, $"v1/resources");
+var resources2 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources");
 
-var resource3 = await httpClient.PostAsync<Resource>(baseUri, $"v1/resources", new Resource
-                {
-				    Name = "foo",
-				});
+var resource3 = await jsonRestClient.PostAsync<Resource>($"v1/resources",
+    new Resource { Name = "foo" });
 
-var resource4 = await httpClient.PutAsync<Resource>($"https://api.domain.tld/v1/resources/{resource3.Id}", new Resource
-                {
-				    Name = "bar",
-				});
+var resource4 = await jsonRestClient.PutAsync<Resource>($"v1/resources/{resource3.Id}",
+    new Resource { Name = "bar" });
 ```
 
 ## Query string parameters
 
 ```c#
-var resourses5 = await httpClient.GetAsync<Resource[]>(baseUri, $"v1/resources", new Dictionary<string, object>
-                {
-				    { "from", new DateTime(2018, 04, 17, 11, 37, 00) },
-					{ "to", null },
-					{ "starts-with", "" },
-					{ "ends-with", "bar" },
-				});
+var resourses5 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+    new Dictionary<string, object>
+    {
+        { "from", new DateTime(2018, 04, 17, 11, 37, 00) },
+        { "to", null },
+        { "starts-with", "" },
+        { "ends-with", "bar" },
+    });
 ```
 
-The library skips `null` values, but doesn't skip empty strings. Result URI is:
+The `JsonRestClient` skips `null` values, but doesn't skip empty strings. Result URI will be:
 
 > https://api.domain.tld/v1/resources?from=2018-04-17T11:37:00&starts-with=&ends-with=bar
 
 ```c#
-var resourses6 = await httpClient.GetAsync<Resource[]>(baseUri, $"v1/resources", new Dictionary<string, object>
-                {
-				    { "ids", new [] { 1, 2, 3, 4, 5, 6, 7 } },
-				});
+var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+    new Dictionary<string, object>
+    {
+        { "ids", new [] { 1, 2, 3 } },
+    });
 ```
 
-Result URI is:
+Result URI will be:
 
-> https://api.domain.tld/v1/resources?ids=1%2c2%2c3%2c3%2c4%2c5%2c6%2c7
-
-Here `%2c` is the URL-encoded comma (`,`) character. You should use [value provider](https://www.strathweb.com/2017/07/customizing-query-string-parameter-binding-in-asp-net-core-mvc/)
+> https://api.domain.tld/v1/resources?ids=1&ids=2&ids=3
 
 ## Cancellation tokens
 
+```c#
+var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+    new Dictionary<string, object>
+    {
+        { "ids", new [] { 1, 2, 3 } },
+    }, CancellationToken.None);
+```
