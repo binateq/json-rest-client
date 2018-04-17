@@ -5,23 +5,23 @@
     <Version>1.0.1</Version>
     <Authors>Mark Shevchenko</Authors>
     <Company>Binateq</Company>
-    <Product>Binateq.JsonRestExtensions</Product>
+    <Product>Binateq.JsonRestClient</Product>
     <Description>Implements methods to build REST queries with JSON as parameter and result. Supports URI and query string parameters.</Description>
     <Copyright>Copyright (c) 2018 Binateq</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <RepositoryUrl>https://github.com/binateq/json-rest-extensions.git</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/binateq/json-rest-extensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/binateq/json-rest-client.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/binateq/json-rest-client</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>REST, JSON, HttpClient</PackageTags>
     <AssemblyVersion>1.0.1.0</AssemblyVersion>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/binateq/json-rest-extensions/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/binateq/json-rest-client/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="JsonRestExtensionsGenerated.cs">
+    <None Include="JsonRestClientGenerated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>JsonRestExtensionsGenerated.tt</DependentUpon>
+      <DependentUpon>JsonRestClientGenerated.tt</DependentUpon>
     </None>
   </ItemGroup>
 
@@ -30,9 +30,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="JsonRestExtensionsGenerated.tt">
+    <None Update="JsonRestClientGenerated.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>JsonRestExtensionsGenerated.cs</LastGenOutput>
+      <LastGenOutput>JsonRestClientGenerated.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -41,10 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="JsonRestExtensionsGenerated.cs">
+    <Compile Update="JsonRestClientGenerated.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>JsonRestExtensionsGenerated.tt</DependentUpon>
+      <DependentUpon>JsonRestClientGenerated.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 

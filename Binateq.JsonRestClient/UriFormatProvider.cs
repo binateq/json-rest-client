@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Binateq.JsonRestExtensions
+namespace Binateq.JsonRestClient
 {
     /// <summary>
     /// Formats Uri strings.

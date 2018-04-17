@@ -8,12 +8,12 @@ using System.Web;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Binateq.JsonRestExtensions
+namespace Binateq.JsonRestClient
 {
     /// <summary>
     /// Extension methods that aid in making JSON REST requests using <see cref="HttpClient"/>.
     /// </summary>
-    public static partial class JsonRestExtensions
+    public static partial class JsonRestClient
     {
         private static JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
         {

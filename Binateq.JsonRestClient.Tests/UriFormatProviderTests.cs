@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace Binateq.JsonRestExtensions.Tests
+namespace Binateq.JsonRestClient.Tests
 {
     [TestClass]
     public class UriFormatProviderTests

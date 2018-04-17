@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Binateq.JsonRestExtensions\Binateq.JsonRestExtensions.csproj" />
+    <ProjectReference Include="..\Binateq.JsonRestClient\Binateq.JsonRestClient.csproj" />
   </ItemGroup>
 
 </Project>

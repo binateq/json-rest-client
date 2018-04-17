@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 
-namespace Binateq.JsonRestExtensions.Tests
+namespace Binateq.JsonRestClient.Tests
 {
     [TestClass]
-    public class JsonRestExtensionsTests
+    public class JsonRestClientTests
     {
         [TestMethod]
         public async Task CreateJsonContent_WithNull_ReturnsNullJson()
         {
-            var stringContent = JsonRestExtensions.CreateJsonContent(null);
+            var stringContent = JsonRestClient.CreateJsonContent(null);
 
             var actual = await stringContent.ReadAsStringAsync();
 
@@ -24,7 +24,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public async Task CreateJsonContent_WithObject_ReturnsObjectJson()
         {
-            var stringContent = JsonRestExtensions.CreateJsonContent(new { Foo = "foo", Bar = 3.14 });
+            var stringContent = JsonRestClient.CreateJsonContent(new { Foo = "foo", Bar = 3.14 });
 
             var actual = await stringContent.ReadAsStringAsync();
 
@@ -34,7 +34,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public async Task CreateJsonContent_WithArray_ReturnsArrayJson()
         {
-            var stringContent = JsonRestExtensions.CreateJsonContent(new [] { 1, 1, 2, 3, 5, 8 });
+            var stringContent = JsonRestClient.CreateJsonContent(new [] { 1, 1, 2, 3, 5, 8 });
 
             var actual = await stringContent.ReadAsStringAsync();
 
@@ -45,7 +45,7 @@ namespace Binateq.JsonRestExtensions.Tests
         public void BuildUri_WithFormattableString_ReturnsSameUri()
         {
             var resourdeId = 1;
-            var actual = JsonRestExtensions.BuildUri($"http://domain.tld/resources/{resourdeId}");
+            var actual = JsonRestClient.BuildUri($"http://domain.tld/resources/{resourdeId}");
 
             Assert.AreEqual(new Uri("http://domain.tld/resources/1"), actual);
         }
@@ -55,7 +55,7 @@ namespace Binateq.JsonRestExtensions.Tests
         {
             var baseUri = new Uri("http://domain.tld");
             var resourdeId = 1;
-            var actual = JsonRestExtensions.BuildUri(baseUri, $"resources/{resourdeId}");
+            var actual = JsonRestClient.BuildUri(baseUri, $"resources/{resourdeId}");
 
             Assert.AreEqual(new Uri("http://domain.tld/resources/1"), actual);
         }
@@ -70,7 +70,7 @@ namespace Binateq.JsonRestExtensions.Tests
                 Content = new StringContent("{ a: 'foo', b: 100 }"),
             });
 
-            var actual = await JsonRestExtensions.ReadContentAsync<TestObject>(httpResponseMessageTask);
+            var actual = await JsonRestClient.ReadContentAsync<TestObject>(httpResponseMessageTask);
 
             Assert.AreEqual("foo", actual.A);
             Assert.AreEqual(100, actual.B);
@@ -85,7 +85,7 @@ namespace Binateq.JsonRestExtensions.Tests
                 Content = new StringContent("{ a: 100, b: 'foo' }"),
             });
 
-            var actual = await JsonRestExtensions.ReadContentAsync<TestObject>(httpResponseMessageTask);
+            var actual = await JsonRestClient.ReadContentAsync<TestObject>(httpResponseMessageTask);
 
             Assert.AreEqual("foo", actual.A);
         }
@@ -96,7 +96,7 @@ namespace Binateq.JsonRestExtensions.Tests
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.OK };
             var responseTask = Task.FromResult(response);
 
-            var actual = await JsonRestExtensions.ThrowIfInvalidStatusAsync(responseTask);
+            var actual = await JsonRestClient.ThrowIfInvalidStatusAsync(responseTask);
 
             Assert.AreEqual(response, actual);
         }
@@ -108,13 +108,13 @@ namespace Binateq.JsonRestExtensions.Tests
             var response = new HttpResponseMessage { StatusCode = HttpStatusCode.BadRequest };
             var responseTask = Task.FromResult(response);
 
-            var actual = await JsonRestExtensions.ThrowIfInvalidStatusAsync(responseTask);
+            var actual = await JsonRestClient.ThrowIfInvalidStatusAsync(responseTask);
         }
 
         [TestMethod]
         public void ToQueryString_WithEmptyInitialQueryString_ReturnsOnlyParameters()
         {
-            var actual = JsonRestExtensions.ToQueryString("", new Dictionary<string, object>
+            var actual = JsonRestClient.ToQueryString("", new Dictionary<string, object>
             {
                 { "x", 1 },
                 { "y", 2 },
@@ -127,7 +127,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public void ToQueryString_WithEmptyParameters_ReturnsOnlyInitialQueryString()
         {
-            var actual = JsonRestExtensions.ToQueryString("a=4&b=5&c=6", new Dictionary<string, object>());
+            var actual = JsonRestClient.ToQueryString("a=4&b=5&c=6", new Dictionary<string, object>());
 
             Assert.AreEqual("a=4&b=5&c=6", actual);
         }
@@ -135,7 +135,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public void ToQueryString_WithNullParameter_IgnoresTheParameter()
         {
-            var actual = JsonRestExtensions.ToQueryString("", new Dictionary<string, object>
+            var actual = JsonRestClient.ToQueryString("", new Dictionary<string, object>
             {
                 { "x", 1 },
                 { "y", null },
@@ -148,7 +148,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public void ToQueryString_WithInitialQueryStringAndParameters_ReturnsBoth()
         {
-            var actual = JsonRestExtensions.ToQueryString("a=4&b=5&c=6", new Dictionary<string, object>
+            var actual = JsonRestClient.ToQueryString("a=4&b=5&c=6", new Dictionary<string, object>
             {
                 { "x", 1 },
                 { "y", 2 },
@@ -161,7 +161,7 @@ namespace Binateq.JsonRestExtensions.Tests
         [TestMethod]
         public void ToQueryString_WithArray_ReturnsLineariesArray()
         {
-            var actual = JsonRestExtensions.ToQueryString("", new Dictionary<string, object>
+            var actual = JsonRestClient.ToQueryString("", new Dictionary<string, object>
             {
                 { "x", new [] {1, 2, 3 } },
             });

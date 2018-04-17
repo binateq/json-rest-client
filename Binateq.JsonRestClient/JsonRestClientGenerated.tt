@@ -10,9 +10,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Binateq.JsonRestExtensions
+namespace Binateq.JsonRestClient
 {
-    public static partial class JsonRestExtensions
+    public static partial class JsonRestClient
     {
 <#PrintResultNoContentMethods("Get");#>
 

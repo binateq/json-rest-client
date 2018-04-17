@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace Binateq.JsonRestExtensions
+namespace Binateq.JsonRestClient
 {
     public class JsonRestException : Exception
     {
