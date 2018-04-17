@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Binateq.JsonRestClient
 {
+    /// <inheritdoc />
     /// <summary>
     /// Formats Uri strings.
     /// </summary>
@@ -11,6 +12,7 @@ namespace Binateq.JsonRestClient
     /// </remarks>
     internal class UriFormatProvider : IFormatProvider, ICustomFormatter
     {
+        /// <inheritdoc />
         object IFormatProvider.GetFormat(Type formatType)
         {
             if (formatType == typeof(ICustomFormatter))
@@ -19,6 +21,7 @@ namespace Binateq.JsonRestClient
             return null;
         }
 
+        /// <inheritdoc />
         string ICustomFormatter.Format(string format, object arg, IFormatProvider formatProvider)
         {
             if (arg == null)
@@ -27,24 +30,33 @@ namespace Binateq.JsonRestClient
             if (format == "raw")
                 return arg.ToString();
 
-            return FormatPrimitive(format, arg);
+            return Format(format, arg);
         }
 
-        internal static string FormatPrimitive(string format, object arg)
+        /// <summary>
+        /// Formats single value depending on its type.
+        /// </summary>
+        /// <remarks>
+        /// Escapes formatted string if needed.
+        /// </remarks>
+        /// <param name="format">Format, can be <see cref="string.Empty"/>.</param>
+        /// <param name="value">Value.</param>
+        /// <returns>Formatted string representation of <paramref name="value"/>.</returns>
+        public static string Format(string format, object value)
         {
-            if (arg is DateTimeOffset dateTimeOffset && string.IsNullOrEmpty(format))
+            if (value is DateTimeOffset dateTimeOffset && string.IsNullOrEmpty(format))
                 return dateTimeOffset.ToString("O", CultureInfo.InvariantCulture);
 
-            if (arg is DateTime dateTime && string.IsNullOrEmpty(format))
+            if (value is DateTime dateTime && string.IsNullOrEmpty(format))
                 return dateTime.ToString("s", CultureInfo.InvariantCulture);
 
-            if (arg is TimeSpan timeSpan && string.IsNullOrEmpty(format))
+            if (value is TimeSpan timeSpan && string.IsNullOrEmpty(format))
                 return timeSpan.ToString("c", CultureInfo.InvariantCulture);
 
-            if (arg is IFormattable formattable)
+            if (value is IFormattable formattable)
                 return formattable.ToString(format, CultureInfo.InvariantCulture);
 
-            return Uri.EscapeDataString(arg.ToString());
+            return Uri.EscapeDataString(value.ToString());
         }
     }
 }
