@@ -57,7 +57,7 @@ namespace Binateq.JsonRestExtensions.Tests
 
             var actual = formattableString.ToString(new UriFormatProvider());
 
-            Assert.AreEqual("2018-04-16T12:30:00.0000000Z", actual);
+            Assert.AreEqual("2018-04-16T15:30:00.0000000+03:00", actual);
         }
 
         [TestMethod]

@@ -33,13 +33,13 @@ namespace Binateq.JsonRestExtensions
         internal static string FormatPrimitive(string format, object arg)
         {
             if (arg is DateTimeOffset dateTimeOffset && string.IsNullOrEmpty(format))
-                return dateTimeOffset.UtcDateTime.ToString("O");
+                return dateTimeOffset.ToString("O", CultureInfo.InvariantCulture);
 
             if (arg is DateTime dateTime && string.IsNullOrEmpty(format))
-                return dateTime.ToString("s");
+                return dateTime.ToString("s", CultureInfo.InvariantCulture);
 
             if (arg is TimeSpan timeSpan && string.IsNullOrEmpty(format))
-                return timeSpan.ToString("c");
+                return timeSpan.ToString("c", CultureInfo.InvariantCulture);
 
             if (arg is IFormattable formattable)
                 return formattable.ToString(format, CultureInfo.InvariantCulture);

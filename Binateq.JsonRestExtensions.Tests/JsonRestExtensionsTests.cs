@@ -133,6 +133,19 @@ namespace Binateq.JsonRestExtensions.Tests
         }
 
         [TestMethod]
+        public void ToQueryString_WithNullParameter_IgnoresTheParameter()
+        {
+            var actual = JsonRestExtensions.ToQueryString("", new Dictionary<string, object>
+            {
+                { "x", 1 },
+                { "y", null },
+                { "z", 3 },
+            });
+
+            Assert.AreEqual("x=1&z=3", actual);
+        }
+
+        [TestMethod]
         public void ToQueryString_WithInitialQueryStringAndParameters_ReturnsBoth()
         {
             var actual = JsonRestExtensions.ToQueryString("a=4&b=5&c=6", new Dictionary<string, object>
