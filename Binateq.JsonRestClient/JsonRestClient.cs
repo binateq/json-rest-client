@@ -80,7 +80,7 @@ namespace Binateq.JsonRestClient
         /// <param name="formattableString">Formattable string with placeholders.</param>
         /// <param name="queryStringParameters">Query string parameters.</param>
         /// <returns>Full URI.</returns>
-        protected internal virtual Uri BuildUri(FormattableString formattableString, Dictionary<string, object> queryStringParameters)
+        protected internal virtual Uri BuildUri(FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters)
         {
             var uriBuilder = new UriBuilder(BuildUri(formattableString));
 

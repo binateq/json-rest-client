@@ -12,578 +12,229 @@ using System.Threading.Tasks;
 
 namespace Binateq.JsonRestClient
 {
-    public static partial class JsonRestClient
+    public partial class JsonRestClient
     {
-<#PrintResultNoContentMethods("Get");#>
+<#
+	for (int i = 0; i < 16; i++)
+	{
+		var hasQueryString = (i & 0x0001) != 0;
+		var hasContent = (i & 0x0002) != 0;
+		var hasCancellation = (i & 0x0004) != 0;
+		var hasValidation = (i & 0x0008) != 0;
 
-<#PrintThrowableResultNoContentMethods("Get");#>
-
-<#PrintNoResultNoContentMethods("Put");#>
-
-<#PrintThrowableNoResultNoContentMethods("Put");#>
-
-<#PrintResultNoContentMethods("Put");#>
-
-<#PrintThrowableResultNoContentMethods("Put");#>
-
-<#PrintNoResultContentMethods("Put"); #>
-
-<#PrintThrowableNoResultContentMethods("Put"); #>
-
-<#PrintResultContentMethods("Put"); #>
-
-<#PrintThrowableResultContentMethods("Put"); #>
-
-<#PrintNoResultNoContentMethods("Post");#>
-
-<#PrintThrowableNoResultNoContentMethods("Post");#>
-
-<#PrintResultNoContentMethods("Post");#>
-
-<#PrintThrowableResultNoContentMethods("Post");#>
-
-<#PrintNoResultContentMethods("Post"); #>
-
-<#PrintThrowableNoResultContentMethods("Post"); #>
-
-<#PrintResultContentMethods("Post"); #>
-
-<#PrintThrowableResultContentMethods("Post"); #>
-
-<#PrintNoResultNoContentMethods("Delete");#>
-
-<#PrintThrowableNoResultNoContentMethods("Delete");#>
-
-<#PrintResultNoContentMethods("Delete");#>
-
-<#PrintThrowableResultNoContentMethods("Delete");#>
+		if (hasContent)
+		{
+			PrintFunction("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
+		}
+		else
+		{
+			PrintFunction("Get", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Delete", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintProcedure("Delete", hasQueryString, hasContent, hasCancellation, hasValidation);
+		}
+	}
+#>
 	}
 }
 <#+
-public void PrintNoResultNoContentMethods(string httpMethod)
+public void PrintProcedure(string httpMethod, bool hasQueryString,
+	bool hasContent, bool hasCancellation, bool hasValidation)
+{
+
+if (hasValidation)
 {
 #>
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>);
-        }
+		public async Task Throwable<#=httpMethod#>Async(FormattableString formattableString
+<#+
+}
+else
+{
+#>
+		public async Task <#=httpMethod#>Async(FormattableString formattableString
+<#+
+}
+if (hasQueryString)
+{
+#>
+			, IReadOnlyDictionary<string, object> queryStringParameters
+<#+
+}
 
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken);
-        }
+if (hasContent)
+{
+#>
+			, object contentParameter
+<#+
+}
 
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken);
-        }
+if (hasCancellation)
+{
+#>
+			, CancellationToken cancellationToken
 <#+
 }
 #>
+		)
+		{
 <#+
-public void PrintThrowableNoResultNoContentMethods(string httpMethod)
+if (hasQueryString)
 {
 #>
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
             var requestUri = BuildUri(formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                            .ThrowIfInvalidStatusAsync();
-        }
+<#+
+}
+else
+{
+#>
+            var requestUri = BuildUri(formattableString);
+<#+
+}
 
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
+if (hasContent)
+{
+#>
+			var content = CreateJsonContent(contentParameter);
 <#+
 }
 #>
+			await httpClient.<#=httpMethod#>Async(requestUri
 <#+
-public void PrintResultNoContentMethods(string httpMethod)
+if (hasContent)
 {
 #>
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ReadContentAsync<T>();
-        }
+				, content
+<#+
 
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ReadContentAsync<T>();
-        }
+}
+else if (httpMethod != "Get" && httpMethod != "Delete")
+{
+#>
+				, null
+<#+
+}
+if (hasCancellation)
+{
+#>
+				, cancellationToken
 <#+
 }
 #>
+			)
 <#+
-public void PrintThrowableResultNoContentMethods(string httpMethod)
+if (hasValidation)
 {
 #>
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-            return await httpClient.<#=httpMethod#>Async(requestUri<#=httpMethod == "Get" || httpMethod == "Delete" ? "" : ", null"#>, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-                                   .ReadContentAsync<T>();
-        }
+				.ThrowIfInvalidStatusAsync()
 <#+
 }
 #>
-<#+
-public void PrintNoResultContentMethods(string httpMethod)
-{
-#>
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content);
-        }
-
-        public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken);
-        }
-<#+
-}
-#>
-<#+
-public void PrintThrowableNoResultContentMethods(string httpMethod)
-{
-#>
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content)
-                            .ThrowIfInvalidStatusAsync();
+			;
 		}
+<#+
+}
+#>
+<#+
+public void PrintFunction(string httpMethod, bool hasQueryString,
+	bool hasContent, bool hasCancellation, bool hasValidation)
+{
 
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
+if (hasValidation)
+{
+#>
+		public async Task<T> Throwable<#=httpMethod#>Async<T>(FormattableString formattableString
+<#+
+}
+else
+{
+#>
+		public async Task<T> <#=httpMethod#>Async<T>(FormattableString formattableString
+<#+
+}
+if (hasQueryString)
+{
+#>
+			, IReadOnlyDictionary<string, object> queryStringParameters
+<#+
+}
+
+if (hasContent)
+{
+#>
+			, object contentParameter
+<#+
+}
+
+if (hasCancellation)
+{
+#>
+			, CancellationToken cancellationToken
+<#+
+}
+#>
+		)
+		{
+<#+
+if (hasQueryString)
+{
+#>
+            var requestUri = BuildUri(formattableString, queryStringParameters);
+<#+
+}
+else
+{
+#>
             var requestUri = BuildUri(formattableString);
+<#+
+}
+
+if (hasContent)
+{
+#>
 			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
+<#+
+}
+#>
+			return await httpClient.<#=httpMethod#>Async(requestUri
+<#+
+if (hasContent)
+{
+#>
+				, content
+<#+
+
+}
+else if (httpMethod != "Get" && httpMethod != "Delete")
+{
+#>
+				, null
+<#+
+}
+if (hasCancellation)
+{
+#>
+				, cancellationToken
+<#+
+}
+#>
+			)
+<#+
+if (hasValidation)
+{
+#>
+				.ThrowIfInvalidStatusAsync()
+<#+
+}
+#>
+				.ReadContentAsync<T>(settings.Deserialize)
+			;
 		}
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content)
-                            .ThrowIfInvalidStatusAsync();
-        }
-
-        public static async Task Throwable<#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                            .ThrowIfInvalidStatusAsync();
-        }
-<#+
-}
-#>
-<#+
-public void PrintResultContentMethods(string httpMethod)
-{
-#>
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-			                       .ReadContentAsync<T>();
-        }
-<#+
-}
-#>
-<#+
-public void PrintThrowableResultContentMethods(string httpMethod)
-{
-#>
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
-
-        public static async Task<T> Throwable<#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString, Dictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken)
-        {
-            var requestUri = BuildUri(baseUri, formattableString, queryStringParameters);
-			var content = CreateJsonContent(contentParameter);
-            return await httpClient.<#=httpMethod#>Async(requestUri, content, cancellationToken)
-                                   .ThrowIfInvalidStatusAsync()
-			                       .ReadContentAsync<T>();
-        }
 <#+
 }
 #>
