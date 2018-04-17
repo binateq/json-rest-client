@@ -1,4 +1,4 @@
-# json-rest-extensions
+# json-rest-client
 
 Implements methods to build REST queries with JSON as parameter and result.
 Supports URI and query string parameters.
