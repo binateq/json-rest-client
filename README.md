@@ -64,9 +64,53 @@ Result URI will be:
 ## Cancellation tokens
 
 ```c#
-var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+var resourses7 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
     new Dictionary<string, object>
     {
         { "ids", new [] { 1, 2, 3 } },
     }, CancellationToken.None);
+```
+
+## HTTP statuses
+
+### 404 Not Found
+
+There are methods `GetOrDefaultAsync` to process 404 status:
+
+```c#
+var resource8 = await jsonRestClient.GetOrDefaultAsync<Resource>($"v1/resources/{resourceId}");
+```
+
+This method returns `default(Resource)` i. e. `null` when servers sends HTTP status 404.
+
+### 4xx, 5xx
+
+Every method throws `JsonRestException` when server sends status other than 2xx.
+
+```c#
+try
+{
+	var resourses9 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+		new Dictionary<string, object>
+		{
+			{ "ids", new [] { 1, 2, 3 } },
+		}, CancellationToken.None);
+}
+catch (JsonRestException exception)
+{
+	Console.WriteLine($"{exception.StatusCode}, {exception.Content}");
+
+	throw;
+}
+```
+
+`StatusCode` is the [HttpStatusCode](https://msdn.microsoft.com/en-us/library/system.net.httpstatuscode(v=vs.110).aspx)
+enumeration.
+
+`Content` is the string representation of the HTTP response content.
+
+Methods without result like `PutAsync` (not `PutAsync<T>`) has `Foget` form to ignore statuses:
+
+```c#
+await jsonRestClient.PutAndForgetAsync($"v1/resources/{resource3.Id}", new Resource { Name = "bar" });
 ```

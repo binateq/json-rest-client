@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net;
-using System.Net.Http;
 
 namespace Binateq.JsonRestClient
 {
@@ -8,9 +7,9 @@ namespace Binateq.JsonRestClient
     {
         public HttpStatusCode StatusCode { get; }
 
-        public HttpContent Content { get; }
+        public string Content { get; }
 
-        public JsonRestException(HttpStatusCode statusCode, HttpContent content)
+        public JsonRestException(HttpStatusCode statusCode, string content)
         {
             StatusCode = statusCode;
             Content = content;

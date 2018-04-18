@@ -15,29 +15,37 @@ namespace Binateq.JsonRestClient
     public partial class JsonRestClient
     {
 <#
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		var hasQueryString = (i & 0x0001) != 0;
 		var hasContent = (i & 0x0002) != 0;
 		var hasCancellation = (i & 0x0004) != 0;
-		var hasValidation = (i & 0x0008) != 0;
 
 		if (hasContent)
 		{
-			PrintFunction("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintFunction("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Put", hasQueryString, hasContent, hasCancellation);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, true);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, false);
+			PrintFunction("Post", hasQueryString, hasContent, hasCancellation);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, true);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, false);
 		}
 		else
 		{
-			PrintFunction("Get", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintFunction("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintFunction("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintFunction("Delete", hasQueryString, hasContent, hasCancellation, hasValidation);
-			PrintProcedure("Delete", hasQueryString, hasContent, hasCancellation, hasValidation);
+			PrintFunction("Get", hasQueryString, hasContent, hasCancellation);
+			PrintGetOrDefault(hasQueryString, hasCancellation);
+
+			PrintFunction("Put", hasQueryString, hasContent, hasCancellation);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, true);
+			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, false);
+
+			PrintFunction("Post", hasQueryString, hasContent, hasCancellation);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, true);
+			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, false);
+			
+			PrintFunction("Delete", hasQueryString, hasContent, hasCancellation);
+			PrintProcedure("Delete", hasQueryString, hasContent, hasCancellation, true);
+			PrintProcedure("Delete", hasQueryString, hasContent, hasCancellation, false);
 		}
 	}
 #>
@@ -51,13 +59,13 @@ public void PrintProcedure(string httpMethod, bool hasQueryString,
 if (hasValidation)
 {
 #>
-		public async Task Throwable<#=httpMethod#>Async(FormattableString formattableString
+		public async Task <#=httpMethod#>Async(FormattableString formattableString
 <#+
 }
 else
 {
 #>
-		public async Task <#=httpMethod#>Async(FormattableString formattableString
+		public async Task <#=httpMethod#>AndForgetAsync(FormattableString formattableString
 <#+
 }
 if (hasQueryString)
@@ -142,21 +150,11 @@ if (hasValidation)
 #>
 <#+
 public void PrintFunction(string httpMethod, bool hasQueryString,
-	bool hasContent, bool hasCancellation, bool hasValidation)
-{
-
-if (hasValidation)
-{
-#>
-		public async Task<T> Throwable<#=httpMethod#>Async<T>(FormattableString formattableString
-<#+
-}
-else
+	bool hasContent, bool hasCancellation)
 {
 #>
 		public async Task<T> <#=httpMethod#>Async<T>(FormattableString formattableString
 <#+
-}
 if (hasQueryString)
 {
 #>
@@ -223,17 +221,58 @@ if (hasCancellation)
 <#+
 }
 #>
-			)
-<#+
-if (hasValidation)
-{
-#>
-				.ThrowIfInvalidStatusAsync()
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(settings.Deserialize);
+		}
 <#+
 }
 #>
-				.ReadContentAsync<T>(settings.Deserialize)
-			;
+<#+
+public void PrintGetOrDefault(bool hasQueryString, bool hasCancellation)
+{
+#>
+		public async Task<T> GetOrDefaultAsync<T>(FormattableString formattableString
+<#+
+if (hasQueryString)
+{
+#>
+			, IReadOnlyDictionary<string, object> queryStringParameters
+<#+
+}
+
+if (hasCancellation)
+{
+#>
+			, CancellationToken cancellationToken
+<#+
+}
+#>
+		)
+		{
+<#+
+if (hasQueryString)
+{
+#>
+            var requestUri = BuildUri(formattableString, queryStringParameters);
+<#+
+}
+else
+{
+#>
+            var requestUri = BuildUri(formattableString);
+<#+
+}
+#>
+			return await httpClient.GetAsync(requestUri
+<#+
+if (hasCancellation)
+{
+#>
+				, cancellationToken
+<#+
+}
+#>
+			).ReadOrDefaultOrThrowAsync<T>(settings.Deserialize);
 		}
 <#+
 }
