@@ -6,9 +6,9 @@ namespace Binateq.JsonRestClient
 {
     public class JsonRestException : Exception
     {
-        HttpStatusCode StatusCode { get; }
+        public HttpStatusCode StatusCode { get; }
 
-        HttpContent Content { get; }
+        public HttpContent Content { get; }
 
         public JsonRestException(HttpStatusCode statusCode, HttpContent content)
         {
