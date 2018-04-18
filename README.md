@@ -47,7 +47,7 @@ var resourses5 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
 
 The `JsonRestClient` skips `null` values, but doesn't skip empty strings. Result URI will be:
 
-> https://api.domain.tld/v1/resources?from=2018-04-17T11:37:00&starts-with=&ends-with=bar
+> \https://api.domain.tld/v1/resources?from=2018-04-17T11:37:00&starts-with=&ends-with=bar
 
 ```c#
 var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
@@ -59,7 +59,7 @@ var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
 
 Result URI will be:
 
-> https://api.domain.tld/v1/resources?ids=1&ids=2&ids=3
+> \https://api.domain.tld/v1/resources?ids=1&ids=2&ids=3
 
 ## Cancellation tokens
 
