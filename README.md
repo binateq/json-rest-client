@@ -81,7 +81,7 @@ There are methods `GetOrDefaultAsync` to process 404 status:
 var resource8 = await jsonRestClient.GetOrDefaultAsync<Resource>($"v1/resources/{resourceId}");
 ```
 
-This method returns `default(Resource)` i. e. `null` when servers sends HTTP status 404.
+This method returns `default(Resource)` i. e. `null` when server sends HTTP status 404.
 
 ### 4xx, 5xx
 
@@ -90,17 +90,17 @@ Every method throws `JsonRestException` when server sends status other than 2xx.
 ```c#
 try
 {
-	var resourses9 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
-		new Dictionary<string, object>
-		{
-			{ "ids", new [] { 1, 2, 3 } },
-		}, CancellationToken.None);
+    var resourses9 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
+        new Dictionary<string, object>
+        {
+            { "ids", new [] { 1, 2, 3 } },
+        }, CancellationToken.None);
 }
 catch (JsonRestException exception)
 {
-	Console.WriteLine($"{exception.StatusCode}, {exception.Content}");
+    Console.WriteLine($"{exception.StatusCode}, {exception.Content}");
 
-	throw;
+    throw;
 }
 ```
 
