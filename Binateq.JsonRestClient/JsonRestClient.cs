@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace Binateq.JsonRestClient
@@ -122,6 +123,23 @@ namespace Binateq.JsonRestClient
 
             return queryStringParameters.Where(x => x.Value != null)
                                         .Aggregate(queryString, AddAndFormat);
+        }
+
+        /// <summary>
+        /// Configures <paramref name="task"/> to run to free context and ignores all exceptions.
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        protected internal async void Forget(Task task)
+        {
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch
+            {
+                // ignore
+            }
         }
 
         private static NameValueCollection AddAndFormat(NameValueCollection queryString, KeyValuePair<string, object> parameter)
