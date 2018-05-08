@@ -19,10 +19,9 @@ namespace Binateq.JsonRestClient.Tests
                 Content = new StringContent(string.Empty),
             });
 
-            Func<string, Type, object> jsonDeserialize = (string json, Type type)
-                => new TestObject { A = "foo", B = 100 };
+            object JsonDeserialize(string json, Type type) => new TestObject {A = "foo", B = 100};
 
-            var actual = await httpResponseMessageTask.ReadAsync<TestObject>(jsonDeserialize);
+            var actual = await httpResponseMessageTask.ReadAsync<TestObject>(JsonDeserialize);
 
             Assert.AreEqual("foo", actual.A);
             Assert.AreEqual(100, actual.B);

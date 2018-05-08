@@ -65,7 +65,7 @@ if (hasValidation)
 else
 {
 #>
-		public virtual void <#=httpMethod#>AndForgetAsync(FormattableString formattableString
+		public virtual async Task <#=httpMethod#>AndForgetAsync(FormattableString formattableString
 <#+
 }
 if (hasQueryString)
@@ -143,7 +143,7 @@ if (hasValidation)
 else
 {
 #>
-			Forget(httpClient.<#=httpMethod#>Async(requestUri
+			await ForgetAsync(httpClient.<#=httpMethod#>Async(requestUri
 <#+
 	if (hasContent)
 	{

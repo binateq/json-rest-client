@@ -128,9 +128,9 @@ namespace Binateq.JsonRestClient
         /// <summary>
         /// Configures <paramref name="task"/> to run to free context and ignores all exceptions.
         /// </summary>
-        /// <param name="task"></param>
-        /// <returns></returns>
-        protected internal async void Forget(Task task)
+        /// <param name="task">Task to forget.</param>
+        /// <returns>Task.</returns>
+        protected internal async Task ForgetAsync(Task task)
         {
             try
             {
