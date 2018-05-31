@@ -35,7 +35,7 @@ namespace Binateq.JsonRestClient.Tests
 
             var actual = formattableString.ToString(new UriFormatProvider());
 
-            Assert.AreEqual("URI%20unsafe%20string", actual);
+            Assert.AreEqual("URI+unsafe+string", actual);
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Binateq.JsonRestClient.Tests
 
             var actual = formattableString.ToString(new UriFormatProvider());
 
-            Assert.AreEqual("2018-04-16T15%3A30%3A00.0000000%2B03%3A00", actual);
+            Assert.AreEqual("2018-04-16T15%3a30%3a00.0000000%2b03%3a00", actual);
         }
 
         [TestMethod]
@@ -68,7 +68,7 @@ namespace Binateq.JsonRestClient.Tests
 
             var actual = formattableString.ToString(new UriFormatProvider());
 
-            Assert.AreEqual("2018-04-16T15%3A30%3A00", actual);
+            Assert.AreEqual("2018-04-16T15%3a30%3a00", actual);
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Binateq.JsonRestClient.Tests
 
             var actual = formattableString.ToString(new UriFormatProvider());
 
-            Assert.AreEqual("15%3A30%3A00", actual);
+            Assert.AreEqual("15%3a30%3a00", actual);
         }
 
         [TestMethod]
