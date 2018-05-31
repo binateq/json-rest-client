@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Web;
 
 namespace Binateq.JsonRestClient
 {
@@ -30,13 +31,11 @@ namespace Binateq.JsonRestClient
             if (format == "raw")
                 return arg.ToString();
 
-            var formattetArg = Format(format, arg);
-
-            return Uri.EscapeDataString(formattetArg);
+            return FormatAndEscape(format, arg);
         }
 
         /// <summary>
-        /// Formats single value depending on its type.
+        /// Formats and escapes single value depending on its type.
         /// </summary>
         /// <remarks>
         /// Escapes formatted string if needed.
@@ -44,7 +43,14 @@ namespace Binateq.JsonRestClient
         /// <param name="format">Format, can be <see cref="string.Empty"/>.</param>
         /// <param name="value">Value.</param>
         /// <returns>Formatted string representation of <paramref name="value"/>.</returns>
-        public static string Format(string format, object value)
+        public static string FormatAndEscape(string format, object value)
+        {
+            var formattedValue = Format(format, value);
+
+            return HttpUtility.UrlEncode(formattedValue);
+        }
+
+        private static string Format(string format, object value)
         {
             if (value is DateTimeOffset dateTimeOffset && string.IsNullOrEmpty(format))
                 return dateTimeOffset.ToString("O", CultureInfo.InvariantCulture);

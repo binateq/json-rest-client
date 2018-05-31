@@ -147,10 +147,10 @@ namespace Binateq.JsonRestClient
             if (parameter.Value is IEnumerable array)
             {
                 foreach (var element in array)
-                    queryString.Add(parameter.Key, UriFormatProvider.Format(string.Empty, element));
+                    queryString.Add(parameter.Key, UriFormatProvider.FormatAndEscape(string.Empty, element));
             }
             else
-                queryString.Add(parameter.Key, UriFormatProvider.Format(string.Empty, parameter.Value));
+                queryString.Add(parameter.Key, UriFormatProvider.FormatAndEscape(string.Empty, parameter.Value));
 
             return queryString;
         }
