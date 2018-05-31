@@ -46,7 +46,8 @@ namespace Binateq.JsonRestClient.Tests
         {
             var httpResponseMessageTask = Task.FromResult(new HttpResponseMessage
             {
-                StatusCode = HttpStatusCode.BadRequest
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent("test content"),
             });
 
             var actual = await httpResponseMessageTask.ThrowIfInvalidStatusAsync();

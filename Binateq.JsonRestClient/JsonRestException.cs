@@ -10,6 +10,7 @@ namespace Binateq.JsonRestClient
         public string Content { get; }
 
         public JsonRestException(HttpStatusCode statusCode, string content)
+            : base("Invalid HTTP status.")
         {
             StatusCode = statusCode;
             Content = content;

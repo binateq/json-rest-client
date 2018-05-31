@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Binateq.JsonRestClient
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IFormatProvider" />
     /// <summary>
     /// Formats Uri strings.
     /// </summary>
@@ -30,7 +30,9 @@ namespace Binateq.JsonRestClient
             if (format == "raw")
                 return arg.ToString();
 
-            return Format(format, arg);
+            var formattetArg = Format(format, arg);
+
+            return Uri.EscapeDataString(formattetArg);
         }
 
         /// <summary>
@@ -56,7 +58,7 @@ namespace Binateq.JsonRestClient
             if (value is IFormattable formattable)
                 return formattable.ToString(format, CultureInfo.InvariantCulture);
 
-            return Uri.EscapeDataString(value.ToString());
+            return value.ToString();
         }
     }
 }
