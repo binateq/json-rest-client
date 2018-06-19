@@ -54,6 +54,20 @@ namespace Binateq.JsonRestClient.Tests
         }
 
         [TestMethod]
+        public void BuildUri_WithBaseUryWithQuery_UsesBaseUriQuery()
+        {
+            var baseUri = new Uri("http://localhost:11/path1/path2/?param1=1&param2=s");
+            var client = new JsonRestClient(new HttpClient(), baseUri);
+            var id = 100;
+            var actual = client.BuildUri($"param0/{id}", new Dictionary<string, object>
+            {
+                {"param3", true},
+            }).ToString();
+
+            Assert.AreEqual("http://localhost:11/path1/path2/param0/100?param1=1&param2=s&param3=True", actual);
+        }
+
+        [TestMethod]
         public void BuildUri_WithFormattableString_ReturnsSameUri()
         {
             var jsonRestClient = CreateJsonRestClient();

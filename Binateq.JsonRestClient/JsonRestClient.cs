@@ -71,7 +71,10 @@ namespace Binateq.JsonRestClient
             if (string.IsNullOrWhiteSpace(uri))
                 return baseUri;
 
-            return new Uri(baseUri, uri);
+            var uriBuilder = new UriBuilder(new Uri(baseUri, uri));
+            uriBuilder.Query += baseUri.Query;
+
+            return uriBuilder.Uri;
         }
 
         /// <summary>
@@ -83,7 +86,8 @@ namespace Binateq.JsonRestClient
         /// <returns>Full URI.</returns>
         protected internal virtual Uri BuildUri(FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters)
         {
-            var uriBuilder = new UriBuilder(BuildUri(formattableString));
+            var uri = BuildUri(formattableString);
+            var uriBuilder = new UriBuilder(uri);
 
             uriBuilder.Query = BuildQueryString(uriBuilder.Query, queryStringParameters);
 
