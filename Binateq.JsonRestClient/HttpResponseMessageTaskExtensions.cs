@@ -49,7 +49,7 @@ namespace Binateq.JsonRestClient
             if (httpResponseMessage.IsSuccessStatusCode)
                 return (T)deserialize(content, typeof(T));
 
-            throw new JsonRestException(httpResponseMessage.StatusCode, content);
+            throw new JsonRestException(httpResponseMessage.RequestMessage.RequestUri, httpResponseMessage.StatusCode, content);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Binateq.JsonRestClient
 
             var content = await httpResponseMessage.Content.ReadAsStringAsync();
 
-            throw new JsonRestException(httpResponseMessage.StatusCode, content);
+            throw new JsonRestException(httpResponseMessage.RequestMessage.RequestUri, httpResponseMessage.StatusCode, content);
         }
     }
 }
