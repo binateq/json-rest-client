@@ -72,7 +72,14 @@ namespace Binateq.JsonRestClient
                 return baseUri;
 
             var uriBuilder = new UriBuilder(new Uri(baseUri, uri));
-            uriBuilder.Query += baseUri.Query;
+            var parameters = HttpUtility.ParseQueryString(baseUri.Query);
+            var queryStringParameters = parameters.AllKeys
+                                                  .SelectMany(parameters.GetValues,
+                                                              (name, value) => new KeyValuePair<string, object>(name, value))
+                                                  .ToDictionary(x => x.Key, x => x.Value);
+
+            // https://msdn.microsoft.com/en-us/library/system.uribuilder.query.aspx
+            uriBuilder.Query = BuildQueryString(uriBuilder.Query, queryStringParameters);
 
             return uriBuilder.Uri;
         }
@@ -108,8 +115,9 @@ namespace Binateq.JsonRestClient
             if (settings.IsShortArraySerialization)
                 return queryString.ToString();
 
-            var assigns = queryString.AllKeys.SelectMany(queryString.GetValues,
-                (name, value) => name + '=' + value);
+            var assigns = queryString.AllKeys
+                                     .SelectMany(queryString.GetValues,
+                                                 (name, value) => name + '=' + value);
 
             return string.Join("&", assigns);
         }
