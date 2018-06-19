@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -73,12 +74,13 @@ namespace Binateq.JsonRestClient
 
             var uriBuilder = new UriBuilder(new Uri(baseUri, uri));
 
-
             // https://msdn.microsoft.com/en-us/library/system.uribuilder.query.aspx
+            var baseUriQuery = Regex.Replace(baseUri.Query, @"^\?+", "");
+
             if (uriBuilder.Query.Length > 1)
-                uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + baseUri.Query;
+                uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + baseUriQuery;
             else
-                uriBuilder.Query = baseUri.Query;
+                uriBuilder.Query = baseUriQuery;
 
             return uriBuilder.Uri;
         }
