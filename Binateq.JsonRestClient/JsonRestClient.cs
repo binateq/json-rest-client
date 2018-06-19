@@ -75,7 +75,7 @@ namespace Binateq.JsonRestClient
 
 
             // https://msdn.microsoft.com/en-us/library/system.uribuilder.query.aspx
-            if (uriBuilder.Query != null && uriBuilder.Query.Length > 2)
+            if (uriBuilder.Query.Length > 1)
                 uriBuilder.Query = uriBuilder.Query.Substring(1) + "&" + baseUri.Query;
             else
                 uriBuilder.Query = baseUri.Query;
