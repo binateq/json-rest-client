@@ -157,7 +157,7 @@ namespace Binateq.JsonRestClient
 
         private static NameValueCollection AddAndFormat(NameValueCollection queryString, KeyValuePair<string, object> parameter)
         {
-            if (parameter.Value is IEnumerable array)
+            if (parameter.Value is IEnumerable array && parameter.Value.GetType() != typeof(string))
             {
                 foreach (var element in array)
                     queryString.Add(parameter.Key, UriFormatProvider.FormatAndEscape(string.Empty, element));

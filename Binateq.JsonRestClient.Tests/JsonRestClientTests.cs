@@ -151,5 +151,17 @@ namespace Binateq.JsonRestClient.Tests
 
             Assert.AreEqual("x=1%2c2%2c3", actual);
         }
+
+        [TestMethod]
+        public void BuildQueryString_WithStringParameter_ReturnsFullParameter()
+        {
+            var jsonRestClient = CreateJsonRestClient();
+            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
+            {
+                { "x", "foobar" },
+            });
+
+            Assert.AreEqual("x=foobar", actual);
+        }
     }
 }
