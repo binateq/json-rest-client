@@ -46,7 +46,11 @@ namespace Binateq.JsonRestClient.Tests
         {
             var httpResponseMessageTask = Task.FromResult(new HttpResponseMessage
             {
-                RequestMessage = new HttpRequestMessage { RequestUri = new Uri("http://localhost") },
+                RequestMessage = new HttpRequestMessage
+                {
+                    RequestUri = new Uri("http://localhost"),
+                    Content = new StringContent(""),
+                },
                 StatusCode = HttpStatusCode.BadRequest,
                 Content = new StringContent("test content"),
             });

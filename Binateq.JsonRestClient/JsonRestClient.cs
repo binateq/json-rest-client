@@ -12,25 +12,61 @@ using System.Web;
 namespace Binateq.JsonRestClient
 {
     /// <summary>
-    /// Extension methods that aid in making JSON REST requests using <see cref="HttpClient"/>.
+    /// Extension methods that aid in making JSON REST requests using <see cref="System.Net.Http.HttpClient"/>.
     /// </summary>
     public partial class JsonRestClient
     {
-        private readonly HttpClient httpClient;
+        private readonly Func<HttpClient> getHttpClient;
         private readonly Uri baseUri;
         private readonly JsonRestClientSettings settings;
 
         /// <summary>
+        /// Gets the current <c>HttpClient</c> instance.
+        /// </summary>
+        protected HttpClient HttpClient => getHttpClient();
+
+        /// <summary>
         /// Initializes the instance of <see cref="JsonRestClient"/> type with specified settings.
         /// </summary>
-        public JsonRestClient(HttpClient httpClient, Uri baseUri, JsonRestClientSettings settings)
+        public JsonRestClient(Func<HttpClient> getHttpClient, Uri baseUri, JsonRestClientSettings settings)
         {
-            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            this.getHttpClient = getHttpClient ?? throw new ArgumentNullException(nameof(getHttpClient));
             this.baseUri = baseUri ?? throw new ArgumentNullException(nameof(baseUri));
             this.settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
             ThrowIfInvalidSettings();
         }
+
+        /// <summary>
+        /// Initializes the instance of <see cref="JsonRestClient"/> type with specified settings.
+        /// </summary>
+        public JsonRestClient(HttpClient httpClient, Uri baseUri, JsonRestClientSettings settings)
+            : this(() => httpClient, baseUri, settings)
+        {
+            if (httpClient == null)
+                throw new ArgumentNullException(nameof(httpClient));
+        }
+
+        /// <summary>
+        /// Initializes the instance of <see cref="JsonRestClient"/> type with default settings.
+        /// </summary>
+        public JsonRestClient(HttpClient httpClient, Uri baseUri)
+            : this(httpClient, baseUri, new JsonRestClientSettings())
+        { }
+
+        /// <summary>
+        /// Initializes the instance of <see cref="JsonRestClient"/> type with specified settings.
+        /// </summary>
+        public JsonRestClient(IHttpClientFactory httpClientFactory, Uri baseUri, JsonRestClientSettings settings)
+            : this((httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory))).CreateClient, baseUri, settings)
+        { }
+
+        /// <summary>
+        /// Initializes the instance of <see cref="JsonRestClient"/> type with specified settings.
+        /// </summary>
+        public JsonRestClient(IHttpClientFactory httpClientFactory, Uri baseUri)
+            : this(httpClientFactory, baseUri, new JsonRestClientSettings())
+        { }
 
         private void ThrowIfInvalidSettings()
         {
@@ -42,14 +78,7 @@ namespace Binateq.JsonRestClient
         }
 
         /// <summary>
-        /// Initializes the instance of <see cref="JsonRestClient"/> type with default settings.
-        /// </summary>
-        public JsonRestClient(HttpClient httpClient, Uri baseUri)
-            : this(httpClient, baseUri, new JsonRestClientSettings())
-        { }
-
-        /// <summary>
-        /// Creates <see cref="HttpContent"/> instance containg JSON represenation of <paramref name="contentParameter"/>.
+        /// Creates <see cref="HttpContent"/> instance containing JSON representation of <paramref name="contentParameter"/>.
         /// </summary>
         /// <param name="contentParameter">Data transfer object to serialize to JSON.</param>
         /// <returns>HTTP content containing serialized parameter.</returns>
@@ -124,7 +153,7 @@ namespace Binateq.JsonRestClient
         }
 
         /// <summary>
-        /// Merge initial query string and dictionary of parameteres.
+        /// Merge initial query string and dictionary of parameters.
         /// </summary>
         /// <param name="initialQueryString">Initial query string in form <c>p1=v1&p2=v2&p3=v3</c>. May be empty.</param>
         /// <param name="queryStringParameters">Dictionary of pairs, where each pair contains of

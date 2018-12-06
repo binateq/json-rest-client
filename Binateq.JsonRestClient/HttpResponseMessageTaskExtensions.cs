@@ -44,12 +44,15 @@ namespace Binateq.JsonRestClient
             if (httpResponseMessage.StatusCode == HttpStatusCode.NotFound)
                 return default(T);
 
-            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            var uri = httpResponseMessage.RequestMessage.RequestUri;
+            var requestContent = await httpResponseMessage.RequestMessage.Content.ReadAsStringAsync();
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            var statusCode = httpResponseMessage.StatusCode;
 
             if (httpResponseMessage.IsSuccessStatusCode)
-                return (T)deserialize(content, typeof(T));
+                return (T)deserialize(responseContent, typeof(T));
 
-            throw new JsonRestException(httpResponseMessage.RequestMessage.RequestUri, httpResponseMessage.StatusCode, content);
+            throw new JsonRestException(uri, requestContent, responseContent, statusCode);
         }
 
         /// <summary>
@@ -64,9 +67,12 @@ namespace Binateq.JsonRestClient
             if (httpResponseMessage.IsSuccessStatusCode)
                 return httpResponseMessage;
 
-            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            var uri = httpResponseMessage.RequestMessage.RequestUri;
+            var requestContent = await httpResponseMessage.RequestMessage.Content.ReadAsStringAsync();
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            var statusCode = httpResponseMessage.StatusCode;
 
-            throw new JsonRestException(httpResponseMessage.RequestMessage.RequestUri, httpResponseMessage.StatusCode, content);
+            throw new JsonRestException(uri, requestContent, responseContent, statusCode);
         }
     }
 }

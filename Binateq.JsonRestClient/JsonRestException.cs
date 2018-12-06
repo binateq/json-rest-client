@@ -7,15 +7,22 @@ namespace Binateq.JsonRestClient
     {
         public Uri Uri { get; }
 
+        public string RequestContent { get; }
+
+        public string ResponseContent { get; }
+
         public HttpStatusCode StatusCode { get; }
 
-        public string Content { get; }
+        [Obsolete]
+        public string Content => RequestContent;
 
-        public JsonRestException(Uri uri, HttpStatusCode statusCode, string content)
+        public JsonRestException(Uri uri, string requestContent, string responseContent, HttpStatusCode statusCode)
             : base("Invalid HTTP status.")
         {
+            Uri = uri;
+            RequestContent = requestContent;
+            ResponseContent = responseContent;
             StatusCode = statusCode;
-            Content = content;
         }
     }
 }

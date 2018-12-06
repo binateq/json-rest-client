@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.5</Version>
-    <AssemblyVersion>1.2.4.0</AssemblyVersion>
+    <Version>1.3.0</Version>
+    <AssemblyVersion>1.3.0.0</AssemblyVersion>
     <Authors>Mark Shevchenko</Authors>
     <Company>Binateq</Company>
     <Product>Binateq.JsonRestClient</Product>
@@ -15,6 +15,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>REST, JSON, HttpClient</PackageTags>
     <PackageLicenseUrl>https://raw.githubusercontent.com/binateq/json-rest-client/master/LICENSE</PackageLicenseUrl>
+    <PackageReleaseNotes>Implement IHttpClientFactory scenario
+Add RequestContent</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,7 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
 
   <ItemGroup>

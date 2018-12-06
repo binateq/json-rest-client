@@ -15,7 +15,7 @@ namespace Binateq.JsonRestClient
         public Func<object, string> Serialize { get; set; }
 
         /// <summary>
-        /// Method used to deserialized objects from JSON.
+        /// Method used to deserialize objects from JSON.
         /// </summary>
         public Func<string, Type, object> Deserialize { get; set; }
 
