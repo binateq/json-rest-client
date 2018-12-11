@@ -32,6 +32,9 @@ var resource4 = await jsonRestClient.PutAsync<Resource>($"v1/resources/{resource
     new Resource { Name = "bar" });
 ```
 
+Since the version 1.3.0 of the packet the class `JsonRestClient` has constructor with [`IHttpClientFactory`](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.ihttpclientfactory?view=aspnetcore-2.1)
+instead of `HttpClient`.
+
 ## Query string parameters
 
 ```c#
@@ -48,6 +51,8 @@ var resourses5 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
 The `JsonRestClient` skips `null` values, but doesn't skip empty strings. Result URI will be:
 
 > `https://api.domain.tld/v1/resources?from=2018-04-17T11:37:00&starts-with=&ends-with=bar`
+
+Also you can use enumerables of primitive types as parameters.
 
 ```c#
 var resourses6 = await jsonRestClient.GetAsync<Resource[]>($"v1/resources",
@@ -98,7 +103,7 @@ try
 }
 catch (JsonRestException exception)
 {
-    Console.WriteLine($"{exception.StatusCode}, {exception.Content}");
+    Console.WriteLine($"{exception.StatusCode}, {exception.Uri}, {exception.RequestContent}, {excpetion.ResponseContent}");
 
     throw;
 }
@@ -107,7 +112,7 @@ catch (JsonRestException exception)
 `StatusCode` is the [HttpStatusCode](https://msdn.microsoft.com/en-us/library/system.net.httpstatuscode(v=vs.110).aspx)
 enumeration.
 
-`Content` is the string representation of the HTTP response content.
+`ResponseContent` is the string representation of the HTTP response content.
 
 Methods without result like `PutAsync` (not `PutAsync<T>`) has `Foget` form to ignore statuses:
 
