@@ -68,11 +68,19 @@ namespace Binateq.JsonRestClient
                 return httpResponseMessage;
 
             var uri = httpResponseMessage.RequestMessage.RequestUri;
-            var requestContent = await httpResponseMessage.RequestMessage.Content.ReadAsStringAsync();
-            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            var requestContent = await ReadStringContentOrNullAsync(httpResponseMessage.RequestMessage.Content);
+            var responseContent = await ReadStringContentOrNullAsync(httpResponseMessage.Content);
             var statusCode = httpResponseMessage.StatusCode;
 
             throw new JsonRestException(uri, requestContent, responseContent, statusCode);
+        }
+
+        private static async Task<string> ReadStringContentOrNullAsync(this HttpContent content)
+        {
+            if (content == null)
+                return null;
+
+            return await content.ReadAsStringAsync();
         }
     }
 }
