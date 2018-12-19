@@ -94,13 +94,13 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-            var requestUri = BuildUri(formattableString, queryStringParameters);
+		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-            var requestUri = BuildUri(formattableString);
+		    var requestUri = _baseUri.Append(formattableString);
 <#+
 }
 
@@ -206,13 +206,13 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-            var requestUri = BuildUri(formattableString, queryStringParameters);
+		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-            var requestUri = BuildUri(formattableString);
+		    var requestUri = _baseUri.Append(formattableString);
 <#+
 }
 
@@ -246,7 +246,7 @@ if (hasCancellation)
 }
 #>
 			).ThrowIfInvalidStatusAsync()
-			 .ReadAsync<T>(settings.Deserialize);
+			 .ReadAsync<T>(_settings.Deserialize);
 		}
 <#+
 }
@@ -277,13 +277,13 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-            var requestUri = BuildUri(formattableString, queryStringParameters);
+		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-            var requestUri = BuildUri(formattableString);
+		    var requestUri = _baseUri.Append(formattableString);
 <#+
 }
 #>
@@ -296,7 +296,7 @@ if (hasCancellation)
 <#+
 }
 #>
-			).ReadOrDefaultOrThrowAsync<T>(settings.Deserialize);
+			).ReadOrDefaultOrThrowAsync<T>(_settings.Deserialize);
 		}
 <#+
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -12,12 +11,6 @@ namespace Binateq.JsonRestClient.Tests
         private JsonRestClient CreateJsonRestClient()
         {
             return new JsonRestClient(new HttpClient(), new Uri("http://api.domain.tld"));
-        }
-
-        private JsonRestClient CreateJsonRestClientWithShortArraySerialization()
-        {
-            return new JsonRestClient(new HttpClient(), new Uri("http://api.domain.tld"),
-                new JsonRestClientSettings { IsShortArraySerialization = true });
         }
 
         [TestMethod]
@@ -51,117 +44,6 @@ namespace Binateq.JsonRestClient.Tests
             var actual = await stringContent.ReadAsStringAsync();
 
             Assert.AreEqual("[\r\n  1,\r\n  1,\r\n  2,\r\n  3,\r\n  5,\r\n  8\r\n]", actual);
-        }
-
-        [TestMethod]
-        public void BuildUri_WithBaseUryWithQuery_UsesBaseUriQuery()
-        {
-            var baseUri = new Uri("http://localhost:11/path1/path2/?param1=1&param2=s");
-            var client = new JsonRestClient(new HttpClient(), baseUri);
-            var id = 100;
-            var actual = client.BuildUri($"param0/{id}", new Dictionary<string, object>
-            {
-                {"param3", true},
-            }).ToString();
-
-            Assert.AreEqual("http://localhost:11/path1/path2/param0/100?param1=1&param2=s&param3=True", actual);
-        }
-
-        [TestMethod]
-        public void BuildUri_WithFormattableString_ReturnsSameUri()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var resourdeId = 1;
-            var actual = jsonRestClient.BuildUri($"v1/resources/{resourdeId}");
-
-            Assert.AreEqual(new Uri("http://api.domain.tld/v1/resources/1"), actual);
-        }
-
-        [TestMethod]
-        public void BuildQueryString_WithEmptyInitialQueryString_ReturnsOnlyParameters()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
-            {
-                { "x", 1 },
-                { "y", 2 },
-                { "z", 3 },
-            });
-
-            Assert.AreEqual("x=1&y=2&z=3", actual);
-        }
-
-        [TestMethod]
-        public void BuildQueryString_WithEmptyParameters_ReturnsOnlyInitialQueryString()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("a=4&b=5&c=6", new Dictionary<string, object>());
-
-            Assert.AreEqual("a=4&b=5&c=6", actual);
-        }
-
-        [TestMethod]
-        public void BuildQueryString_WithNullParameter_IgnoresTheParameter()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
-            {
-                { "x", 1 },
-                { "y", null },
-                { "z", 3 },
-            });
-
-            Assert.AreEqual("x=1&z=3", actual);
-        }
-
-        [TestMethod]
-        public void BuildQueryString_WithInitialQueryStringAndParameters_ReturnsBoth()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("a=4&b=5&c=6", new Dictionary<string, object>
-            {
-                { "x", 1 },
-                { "y", 2 },
-                { "z", 3 },
-            });
-
-            Assert.AreEqual("a=4&b=5&c=6&x=1&y=2&z=3", actual);
-        }
-
-        [TestMethod]
-        public void BuildClassicQueryString_WithArray_ReturnsLineariesArray()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
-            {
-                { "x", new [] {1, 2, 3 } },
-            });
-
-            Assert.AreEqual("x=1&x=2&x=3", actual);
-        }
-
-        [TestMethod]
-        public void BuildShortQueryString_WithArray_ReturnsLineariesArray()
-        {
-            var jsonRestClient = CreateJsonRestClientWithShortArraySerialization();
-            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
-            {
-                { "x", new [] {1, 2, 3 } },
-            });
-
-            Assert.AreEqual("x=1%2c2%2c3", actual);
-        }
-
-        [TestMethod]
-        public void BuildQueryString_WithStringParameter_ReturnsFullParameter()
-        {
-            var jsonRestClient = CreateJsonRestClient();
-            var actual = jsonRestClient.BuildQueryString("", new Dictionary<string, object>
-            {
-                { "x", "foobar" },
-            });
-
-            Assert.AreEqual("x=foobar", actual);
         }
     }
 }
