@@ -82,5 +82,22 @@ namespace Binateq.JsonRestClient
 
             return await content.ReadAsStringAsync();
         }
+
+        /// <summary>
+        /// Configures <paramref name="httpResponseMessageTask"/> to run to free context and ignores all exceptions.
+        /// </summary>
+        /// <param name="httpResponseMessageTask">Task to forget.</param>
+        /// <returns>Task.</returns>
+        public static async Task ForgetAsync(this Task<HttpResponseMessage> httpResponseMessageTask)
+        {
+            try
+            {
+                var ignored = await httpResponseMessageTask.ConfigureAwait(false);
+            }
+            catch
+            {
+                // Drop exception
+            }
+        }
     }
 }

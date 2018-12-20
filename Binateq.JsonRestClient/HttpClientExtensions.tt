@@ -6,13 +6,21 @@
 <#@ output extension=".cs" #>
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Binateq.JsonRestClient
 {
-    public partial class JsonRestClient
+    public static class HttpClientExtensions
     {
+        private static HttpContent CreateJsonContent(object dto)
+        {
+            var json = JsonRestClientSettings.Default.Serialize(dto);
+
+            return new StringContent(json, Encoding.UTF8, "application/json");
+        }
 <#
 	for (int i = 0; i < 8; i++)
 	{
@@ -58,13 +66,13 @@ public void PrintProcedure(string httpMethod, bool hasQueryString,
 if (hasValidation)
 {
 #>
-		public virtual async Task <#=httpMethod#>Async(FormattableString formattableString
+		public static async Task <#=httpMethod#>Async(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 <#+
 }
 else
 {
 #>
-		public virtual async Task <#=httpMethod#>AndForgetAsync(FormattableString formattableString
+		public static async Task <#=httpMethod#>AndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 <#+
 }
 if (hasQueryString)
@@ -94,13 +102,13 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString);
+		    var requestUri = baseUri.Append(formattableString);
 <#+
 }
 
@@ -114,7 +122,7 @@ if (hasContent)
 if (hasValidation)
 {
 #>
-			await HttpClient.<#=httpMethod#>Async(requestUri
+			await httpClient.<#=httpMethod#>Async(requestUri
 <#+
 	if (hasContent)
 	{
@@ -142,7 +150,7 @@ if (hasValidation)
 else
 {
 #>
-			await HttpClient.<#=httpMethod#>Async(requestUri
+			await httpClient.<#=httpMethod#>Async(requestUri
 <#+
 	if (hasContent)
 	{
@@ -177,7 +185,7 @@ public void PrintFunction(string httpMethod, bool hasQueryString,
 	bool hasContent, bool hasCancellation)
 {
 #>
-		public virtual async Task<T> <#=httpMethod#>Async<T>(FormattableString formattableString
+		public static async Task<T> <#=httpMethod#>Async<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 <#+
 if (hasQueryString)
 {
@@ -206,13 +214,13 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString);
+		    var requestUri = baseUri.Append(formattableString);
 <#+
 }
 
@@ -223,7 +231,7 @@ if (hasContent)
 <#+
 }
 #>
-			return await HttpClient.<#=httpMethod#>Async(requestUri
+			return await httpClient.<#=httpMethod#>Async(requestUri
 <#+
 if (hasContent)
 {
@@ -246,7 +254,7 @@ if (hasCancellation)
 }
 #>
 			).ThrowIfInvalidStatusAsync()
-			 .ReadAsync<T>(_settings.Deserialize);
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
 		}
 <#+
 }
@@ -255,7 +263,7 @@ if (hasCancellation)
 public void PrintGetOrDefault(bool hasQueryString, bool hasCancellation)
 {
 #>
-		public virtual async Task<T> GetOrDefaultAsync<T>(FormattableString formattableString
+		public static async Task<T> GetOrDefaultAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 <#+
 if (hasQueryString)
 {
@@ -277,17 +285,17 @@ if (hasCancellation)
 if (hasQueryString)
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString, _settings.IsShortArraySerialization, queryStringParameters);
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
 <#+
 }
 else
 {
 #>
-		    var requestUri = _baseUri.Append(formattableString);
+		    var requestUri = baseUri.Append(formattableString);
 <#+
 }
 #>
-			return await HttpClient.GetAsync(requestUri
+			return await httpClient.GetAsync(requestUri
 <#+
 if (hasCancellation)
 {
@@ -296,7 +304,7 @@ if (hasCancellation)
 <#+
 }
 #>
-			).ReadOrDefaultOrThrowAsync<T>(_settings.Deserialize);
+			).ReadOrDefaultOrThrowAsync<T>(JsonRestClientSettings.Default.Deserialize);
 		}
 <#+
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Binateq.JsonRestClient
 {
@@ -84,23 +83,6 @@ namespace Binateq.JsonRestClient
             var json = _settings.Serialize(dto);
 
             return new StringContent(json, Encoding.UTF8, "application/json");
-        }
-
-        /// <summary>
-        /// Configures <paramref name="task"/> to run to free context and ignores all exceptions.
-        /// </summary>
-        /// <param name="task">Task to forget.</param>
-        /// <returns>Task.</returns>
-        protected internal async Task ForgetAsync(Task task)
-        {
-            try
-            {
-                await task.ConfigureAwait(false);
-            }
-            catch
-            {
-                // ignore
-            }
         }
     }
 }
