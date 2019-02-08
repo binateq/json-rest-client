@@ -55,14 +55,102 @@ namespace Binateq.JsonRestClient
 			PrintProcedure("Delete", hasQueryString, hasContent, hasCancellation, false);
 		}
 	}
+
+	PrintUriProcedure("Put");
+	PrintUriProcedure("PutAndForget");
+	PrintUriProcedure("Post");
+	PrintUriProcedure("PostAndForget");
+	PrintUriProcedure("Delete");
+	PrintUriProcedure("DeleteAndForget");
+
+	PrintUriFunction("Get");
+	PrintUriFunction("GetOrDefault");
+	PrintUriFunction("Put");
+	PrintUriFunction("Post");
+	PrintUriFunction("Delete");
+
+	PrintUriContentProcedure("Put");
+	PrintUriContentProcedure("PutAndForget");
+	PrintUriContentProcedure("Post");
+	PrintUriContentProcedure("PostAndForget");
+
+	PrintUriContentFunction("Put");
+	PrintUriContentFunction("Post");
 #>
 	}
 }
 <#+
+public void PrintUriContentProcedure(string name)
+{
+#>
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+<#+
+}
+
+public void PrintUriContentFunction(string name)
+{
+#>
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+<#+
+}
+
+public void PrintUriProcedure(string name)
+{
+#>
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task <#=name#>Async(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await <#=name#>Async(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+<#+
+}
+
+public void PrintUriFunction(string name)
+{
+#>
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> <#=name#>Async<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+<#+
+}
+
 public void PrintProcedure(string httpMethod, bool hasQueryString,
 	bool hasContent, bool hasCancellation, bool hasValidation)
 {
-
 if (hasValidation)
 {
 #>

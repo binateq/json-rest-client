@@ -32,8 +32,44 @@ var resource4 = await jsonRestClient.PutAsync<Resource>($"v1/resources/{resource
     new Resource { Name = "bar" });
 ```
 
-Since the version 1.3.0 of the packet the class `JsonRestClient` has constructor with [`IHttpClientFactory`](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.ihttpclientfactory?view=aspnetcore-2.1)
+## `IHttpClientFactory`
+
+Since the version 1.3.0 the class `JsonRestClient` has constructor with [`IHttpClientFactory`](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.ihttpclientfactory?view=aspnetcore-2.1)
 instead of `HttpClient`.
+
+## Extension methods for `HttpClient`
+
+Since the version 1.4.0 the packet implements extension methods for `HttpClient`:
+
+```c#
+var httpClient = new HttpClient();
+var baseUri = new Uri("https://api.domain.tld");
+
+var resourceId = 100;
+
+var resource1 = await httpClient.GetAsync<Resource>(baseUri, $"v1/resources/{resourceId}");
+```
+
+Since the version 1.5.0 extension method can use `HttpClient.BaseAddress` as `baseUri`:
+
+```c#
+var httpClient = new HttpClient();
+httpClient.BaseAddress = new Uri("https://api.domain.tld");
+
+var resourceId = 100;
+
+var resource1 = await httpClient.GetAsync<Resource>($"v1/resources/{resourceId}");
+```
+
+## Ambient context for extension methods
+
+Extension methods of `HttpClient` uses settings from the static property `JsonRestClientSettings.Default`.
+You can set them at the start of your program:
+
+```c#
+JsonRestClientSettings.Default.ContractResolver = new CamelCasePropertyNamesContractResolver();
+JsonRestClientSettings.Default.Formatting = Formatting.Indented;
+```
 
 ## Query string parameters
 

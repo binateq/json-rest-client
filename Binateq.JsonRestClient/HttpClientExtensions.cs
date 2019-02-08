@@ -713,5 +713,192 @@ namespace Binateq.JsonRestClient
 				, cancellationToken
 			).ForgetAsync();
 		}
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task<T> GetAsync<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await GetAsync<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> GetAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await GetAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> GetAsync<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await GetAsync<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> GetAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await GetAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task<T> GetOrDefaultAsync<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await GetOrDefaultAsync<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> GetOrDefaultAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await GetOrDefaultAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> GetOrDefaultAsync<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await GetOrDefaultAsync<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> GetOrDefaultAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await GetOrDefaultAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, CancellationToken cancellationToken) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, cancellationToken);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, CancellationToken cancellationToken) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task PutAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task PutAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task PostAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
 	}
 }
