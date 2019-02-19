@@ -1,21 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.5.0</Version>
-    <AssemblyVersion>1.5.0.0</AssemblyVersion>
+    <Version>1.5.2</Version>
+    <AssemblyVersion>1.5.2.0</AssemblyVersion>
     <Authors>Mark Shevchenko</Authors>
     <Company>Binateq</Company>
     <Product>Binateq.JsonRestClient</Product>
     <Description>Implements methods to build REST queries with JSON as parameter and result. Supports URI and query string parameters.</Description>
-    <Copyright>Copyright (c) 2018 Binateq</Copyright>
+    <Copyright>Copyright (c) 2018–2019 Binateq</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <RepositoryUrl>https://github.com/binateq/json-rest-client.git</RepositoryUrl>
     <PackageProjectUrl>https://github.com/binateq/json-rest-client</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>REST, JSON, HttpClient</PackageTags>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/binateq/json-rest-client/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>HttpClient extension methods available. JsonRestClientSettings implemented as Ambient Context for these methods.</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReleaseNotes>Change ProjectLicenseUrl to ProjectLicenseFile. Fix copyright years.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
@@ -45,6 +45,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>JsonRestClientGenerated.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE" Pack="True" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>

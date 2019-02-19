@@ -5,11 +5,10 @@ VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binateq.JsonRestClient", "Binateq.JsonRestClient\Binateq.JsonRestClient.csproj", "{7D81A890-21CC-491E-9D14-E5E0D426423A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Binateq.JsonRestClient.Tests", "Binateq.JsonRestClient.Tests\Binateq.JsonRestClient.Tests.csproj", "{ACB0456D-E5ED-426F-99C0-5A342DB20294}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Binateq.JsonRestClient.Tests", "Binateq.JsonRestClient.Tests\Binateq.JsonRestClient.Tests.csproj", "{ACB0456D-E5ED-426F-99C0-5A342DB20294}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F232FA79-ED95-42B2-959C-BCDDE7CEE8ED}"
 	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject

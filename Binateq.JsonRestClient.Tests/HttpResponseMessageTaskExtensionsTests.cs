@@ -42,7 +42,7 @@ namespace Binateq.JsonRestClient.Tests
 
         [TestMethod]
         [ExpectedException(typeof(JsonRestException))]
-        public async Task ThrowIfInvalidStatusAsync_WithStatusBadRequest_ThrowsException()
+        public async Task ThrowIfInvalidStatusAsync_WithStatusBadRequest_ThrowsJsonRestException()
         {
             var httpResponseMessageTask = Task.FromResult(new HttpResponseMessage
             {
@@ -51,6 +51,20 @@ namespace Binateq.JsonRestClient.Tests
                     RequestUri = new Uri("http://localhost"),
                     Content = new StringContent(""),
                 },
+                StatusCode = HttpStatusCode.BadRequest,
+                Content = new StringContent("test content"),
+            });
+
+            var actual = await httpResponseMessageTask.ThrowIfInvalidStatusAsync();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(JsonRestException))]
+        public async Task ThrowIfInvalidStatusAsync_WithNullRequestMessage_ThrowsJsonRestException()
+        {
+            var httpResponseMessageTask = Task.FromResult(new HttpResponseMessage
+            {
+                RequestMessage = null,
                 StatusCode = HttpStatusCode.BadRequest,
                 Content = new StringContent("test content"),
             });

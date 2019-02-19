@@ -67,8 +67,8 @@ namespace Binateq.JsonRestClient
             if (httpResponseMessage.IsSuccessStatusCode)
                 return httpResponseMessage;
 
-            var uri = httpResponseMessage.RequestMessage.RequestUri;
-            var requestContent = await ReadStringContentOrNullAsync(httpResponseMessage.RequestMessage.Content);
+            var uri = httpResponseMessage.RequestMessage?.RequestUri;
+            var requestContent = await ReadStringContentOrNullAsync(httpResponseMessage.RequestMessage?.Content);
             var responseContent = await ReadStringContentOrNullAsync(httpResponseMessage.Content);
             var statusCode = httpResponseMessage.StatusCode;
 
