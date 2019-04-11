@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.5.2</Version>
-    <AssemblyVersion>1.5.2.0</AssemblyVersion>
+    <Version>1.6.0</Version>
+    <AssemblyVersion>1.6.0.0</AssemblyVersion>
     <Authors>Mark Shevchenko</Authors>
     <Company>Binateq</Company>
     <Product>Binateq.JsonRestClient</Product>
@@ -15,7 +15,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>REST, JSON, HttpClient</PackageTags>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <PackageReleaseNotes>Change ProjectLicenseUrl to ProjectLicenseFile. Fix copyright years.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fix Framework 4.x behaviour: https://stackoverflow.com/questions/25495394/why-do-httpclient-postasync-and-putasync-dispose-the-content</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

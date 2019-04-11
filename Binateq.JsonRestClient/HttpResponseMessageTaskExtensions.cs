@@ -80,7 +80,14 @@ namespace Binateq.JsonRestClient
             if (content == null)
                 return null;
 
-            return await content.ReadAsStringAsync();
+            try
+            {
+                return await content.ReadAsStringAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                return null;
+            }
         }
 
         /// <summary>
