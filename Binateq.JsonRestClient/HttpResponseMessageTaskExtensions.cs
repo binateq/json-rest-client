@@ -45,8 +45,8 @@ namespace Binateq.JsonRestClient
                 return default(T);
 
             var uri = httpResponseMessage.RequestMessage.RequestUri;
-            var requestContent = await httpResponseMessage.RequestMessage.Content.ReadAsStringAsync();
-            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            var requestContent = await ReadStringContentOrNullAsync(httpResponseMessage.RequestMessage?.Content);
+            var responseContent = await ReadStringContentOrNullAsync(httpResponseMessage.Content);
             var statusCode = httpResponseMessage.StatusCode;
 
             if (httpResponseMessage.IsSuccessStatusCode)
