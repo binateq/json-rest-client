@@ -25,6 +25,9 @@ namespace Binateq.JsonRestClient
 
             var stringUriTail = tail.ToString(new UriFormatProvider());
 
+            if (baseUri == null)
+                return new Uri(stringUriTail);
+
             return baseUri.Append(stringUriTail);
         }
 
