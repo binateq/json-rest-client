@@ -78,9 +78,12 @@ namespace Binateq.JsonRestClient
 	PrintUriContentProcedure("PutAndForget");
 	PrintUriContentProcedure("Post");
 	PrintUriContentProcedure("PostAndForget");
+	PrintUriContentProcedure("Delete");
+	PrintUriContentProcedure("DeleteAndForget");
 
 	PrintUriContentFunction("Put");
 	PrintUriContentFunction("Post");
+	PrintUriContentFunction("Delete");
 #>
 	}
 }

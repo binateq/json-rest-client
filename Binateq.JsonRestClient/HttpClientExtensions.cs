@@ -1044,6 +1044,28 @@ namespace Binateq.JsonRestClient
 
 	public static async Task PostAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
 		await PostAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task DeleteAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task DeleteAndForgetAsync(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAndForgetAsync(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
 	public static async Task<T> PutAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
 		await PutAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
 
@@ -1066,5 +1088,16 @@ namespace Binateq.JsonRestClient
 
 	public static async Task<T> PostAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
 		await PostAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, contentParameter, cancellationToken);
+
+	public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, FormattableString formattableString, IReadOnlyDictionary<string, object> queryStringParameters, object contentParameter, CancellationToken cancellationToken) =>
+		await DeleteAsync<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, contentParameter, cancellationToken);
 	}
 }
