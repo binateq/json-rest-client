@@ -262,6 +262,43 @@ namespace Binateq.JsonRestClient
 				, content
 			).ForgetAsync();
 		}
+		public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			return await httpClient.SendAsync(message
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
+		}
+		public static async Task DeleteAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+			).ThrowIfInvalidStatusAsync();
+		}
+		public static async Task DeleteAndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+			).ForgetAsync();
+		}
 		public static async Task<T> PutAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 			, IReadOnlyDictionary<string, object> queryStringParameters
 			, object contentParameter
@@ -328,6 +365,46 @@ namespace Binateq.JsonRestClient
 			var content = CreateJsonContent(contentParameter);
 			await httpClient.PostAsync(requestUri
 				, content
+			).ForgetAsync();
+		}
+		public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			return await httpClient.SendAsync(message
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
+		}
+		public static async Task DeleteAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+			).ThrowIfInvalidStatusAsync();
+		}
+		public static async Task DeleteAndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
 			).ForgetAsync();
 		}
 		public static async Task<T> GetAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
@@ -633,6 +710,49 @@ namespace Binateq.JsonRestClient
 				, cancellationToken
 			).ForgetAsync();
 		}
+		public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			return await httpClient.SendAsync(message
+				, cancellationToken
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
+		}
+		public static async Task DeleteAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+				, cancellationToken
+			).ThrowIfInvalidStatusAsync();
+		}
+		public static async Task DeleteAndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+				, cancellationToken
+			).ForgetAsync();
+		}
 		public static async Task<T> PutAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
 			, IReadOnlyDictionary<string, object> queryStringParameters
 			, object contentParameter
@@ -710,6 +830,52 @@ namespace Binateq.JsonRestClient
 			var content = CreateJsonContent(contentParameter);
 			await httpClient.PostAsync(requestUri
 				, content
+				, cancellationToken
+			).ForgetAsync();
+		}
+		public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			return await httpClient.SendAsync(message
+				, cancellationToken
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
+		}
+		public static async Task DeleteAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
+				, cancellationToken
+			).ThrowIfInvalidStatusAsync();
+		}
+		public static async Task DeleteAndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+			, IReadOnlyDictionary<string, object> queryStringParameters
+			, object contentParameter
+			, CancellationToken cancellationToken
+		)
+		{
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			await httpClient.SendAsync(message
 				, cancellationToken
 			).ForgetAsync();
 		}

@@ -33,9 +33,14 @@ namespace Binateq.JsonRestClient
 			PrintFunction("Put", hasQueryString, hasContent, hasCancellation);
 			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, true);
 			PrintProcedure("Put", hasQueryString, hasContent, hasCancellation, false);
+
 			PrintFunction("Post", hasQueryString, hasContent, hasCancellation);
 			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, true);
 			PrintProcedure("Post", hasQueryString, hasContent, hasCancellation, false);
+
+			PrintDeleteFunction(hasQueryString, hasCancellation);
+			PrintDeleteProcedure(hasQueryString, hasCancellation, true);
+			PrintDeleteProcedure(hasQueryString, hasCancellation, false);
 		}
 		else
 		{
@@ -147,7 +152,8 @@ public void PrintUriFunction(string name)
 		await <#=name#>Async<T>(httpClient, httpClient.BaseAddress, formattableString, queryStringParameters, cancellationToken);
 <#+
 }
-
+#>
+<#+
 public void PrintProcedure(string httpMethod, bool hasQueryString,
 	bool hasContent, bool hasCancellation, bool hasValidation)
 {
@@ -269,6 +275,95 @@ else
 }
 #>
 <#+
+public void PrintDeleteProcedure(bool hasQueryString, bool hasCancellation, bool hasValidation)
+{
+if (hasValidation)
+{
+#>
+		public static async Task DeleteAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+<#+
+}
+else
+{
+#>
+		public static async Task DeleteAndForgetAsync(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+<#+
+}
+if (hasQueryString)
+{
+#>
+			, IReadOnlyDictionary<string, object> queryStringParameters
+<#+
+}
+#>
+			, object contentParameter
+<#+
+if (hasCancellation)
+{
+#>
+			, CancellationToken cancellationToken
+<#+
+}
+#>
+		)
+		{
+<#+
+if (hasQueryString)
+{
+#>
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+<#+
+}
+else
+{
+#>
+		    var requestUri = baseUri.Append(formattableString);
+<#+
+}
+
+#>
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+<#+
+
+if (hasValidation)
+{
+#>
+			await httpClient.SendAsync(message
+<#+
+	if (hasCancellation)
+	{
+#>
+				, cancellationToken
+<#+
+	}
+#>
+			).ThrowIfInvalidStatusAsync();
+<#+
+}
+else
+{
+#>
+			await httpClient.SendAsync(message
+<#+
+	if (hasCancellation)
+	{
+#>
+				, cancellationToken
+<#+
+	}
+#>
+			).ForgetAsync();
+<#+
+}
+#>
+		}
+<#+
+}
+#>
+<#+
 public void PrintFunction(string httpMethod, bool hasQueryString,
 	bool hasContent, bool hasCancellation)
 {
@@ -334,6 +429,64 @@ else if (httpMethod != "Get" && httpMethod != "Delete")
 				, null
 <#+
 }
+if (hasCancellation)
+{
+#>
+				, cancellationToken
+<#+
+}
+#>
+			).ThrowIfInvalidStatusAsync()
+			 .ReadAsync<T>(JsonRestClientSettings.Default.Deserialize);
+		}
+<#+
+}
+#>
+<#+
+public void PrintDeleteFunction(bool hasQueryString,
+	bool hasCancellation)
+{
+#>
+		public static async Task<T> DeleteAsync<T>(this HttpClient httpClient, Uri baseUri, FormattableString formattableString
+<#+
+if (hasQueryString)
+{
+#>
+			, IReadOnlyDictionary<string, object> queryStringParameters
+<#+
+}
+#>
+			, object contentParameter
+<#+
+if (hasCancellation)
+{
+#>
+			, CancellationToken cancellationToken
+<#+
+}
+#>
+		)
+		{
+<#+
+if (hasQueryString)
+{
+#>
+		    var requestUri = baseUri.Append(formattableString, JsonRestClientSettings.Default.IsShortArraySerialization, queryStringParameters);
+<#+
+}
+else
+{
+#>
+		    var requestUri = baseUri.Append(formattableString);
+<#+
+}
+#>
+			var message = new HttpRequestMessage(HttpMethod.Delete, requestUri)
+			{
+				Content = CreateJsonContent(contentParameter),
+			};
+			return await httpClient.SendAsync(message
+<#+
 if (hasCancellation)
 {
 #>
